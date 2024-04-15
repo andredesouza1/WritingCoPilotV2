@@ -18,6 +18,7 @@ export default {
         props.incrementMutation,
         props.decrementMutation
       );
+
     return { increment, decrement, selectedValue };
   },
 };

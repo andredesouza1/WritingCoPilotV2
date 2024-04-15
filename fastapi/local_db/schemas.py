@@ -7,8 +7,7 @@ import uuid
 class CreateArticle(BaseModel):
     title: str
     topics: List[str]
-    bullet_points: List[List[str]]
-    openai_api_key: str
+    bulletPoints: List[List[str]]
     model: Optional[str] = 'gpt-3.5-turbo'
 
 class CreateArticleOut(BaseModel):

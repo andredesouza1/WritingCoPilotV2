@@ -3,7 +3,13 @@ import schemas
 from typing import List
 from utils import create_queue, process_queue
 import random
+import os
+from dotenv import load_dotenv
 
+# This is for local testing only(Need to figure out a secure way to do this later)
+load_dotenv()
+
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 router = APIRouter(
     prefix="/llm_calls",
@@ -21,9 +27,9 @@ def create_article(input: schemas.CreateArticle):
     
     """
     # Create the queue using the topics and bullet points as proxy for # of paragraphs
-    my_queue = create_queue(input.topics,input.bullet_points)
+    my_queue = create_queue(input.topics,input.bulletPoints)
 
-    article, paragraphs, bullet_point_list = process_queue(my_queue, input.openai_api_key, input.model)
+    article, paragraphs, bullet_point_list = process_queue(my_queue, openai_api_key, input.model)
 
     return article,paragraphs,bullet_point_list
 

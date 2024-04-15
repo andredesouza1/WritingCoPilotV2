@@ -2,3 +2,5 @@
 Begin by creating intial Vue view structure. Main pages to develop. View Article Page, Create Article Page(w/ bulletpoints), Saved Content Page
 
 4/9/2024 4:45PM: Finished Creating most of the logic and inputs for the Create Article Page. Now I need to build a fastapi backend in order to send the data from the forms and retrieve the Article
+
+4/11/2004 11AM: Finished creating initial FastAPI backend. Now I need to connect the frontend to the backend and test the connection
