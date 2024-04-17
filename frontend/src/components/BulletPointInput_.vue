@@ -1,13 +1,17 @@
 <template>
   <div>
-    <input type="text" v-model="bulletPoint" @keyup.enter="submitInput" />
+    <textarea
+      type="text"
+      v-model="bulletPoint"
+      @keyup.enter="submitInput"
+    ></textarea>
   </div>
 </template>
 
 <script>
-import { ref, onUpdated } from "vue";
+import { ref, onUpdated, watch } from "vue";
 export default {
-  props: ["index"],
+  props: ["index", "value"],
   setup(props, context) {
     const bulletPoint = ref("");
 
@@ -29,12 +33,13 @@ export default {
 </script>
 
 <style scoped>
-input {
-  width: 300px;
+textarea {
+  width: 80%;
   height: 30px;
   margin: 10px;
   padding: 5px;
   border: 1px solid black;
-  overflow-y: scroll;
+  overflow-y: auto;
+  resize: none;
 }
 </style>

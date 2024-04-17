@@ -2,7 +2,12 @@
   <div>
     <h1>Create Article</h1>
     <div>
-      <input type="text" placeholder="Enter Article Title" id="articleTitle" />
+      <input
+        type="text"
+        placeholder="Enter Article Title"
+        id="articleTitle"
+        v-model="articleTitle"
+      />
       <SelectValue_
         :statekey="statekey"
         :incrementMutation="incrementMutation"
@@ -13,6 +18,7 @@
         v-for="index in numberOfParagraphs"
         :key="index"
         :index="index"
+        :articleTitle="articleTitle"
         @paragraph-values="captureData"
       />
     </div>
@@ -24,7 +30,7 @@
 import SelectValue_ from "../components/SelectValue_.vue";
 import ParagraphCreationBox_ from "../components/ParagraphCreationBox_.vue";
 import { useStore } from "vuex";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 export default {
   components: {
@@ -45,6 +51,8 @@ export default {
     const paragraphTopicsDict = ref({});
 
     const paragraphBulletPointLists = ref({});
+
+    const articleTitle = ref("");
 
     const captureData = (data) => {
       // Merge the bullet point data from the ParagraphCreationBox_ components
@@ -95,7 +103,6 @@ export default {
 
     const handleClick = () => {
       const { title, topics, bulletPoints } = processData();
-      const openaiAPIKey = process.env.OPENAIAPIKEY;
       const model = "gpt-3.5-turbo";
       const jsonData = JSON.stringify({
         title,
@@ -125,11 +132,17 @@ export default {
         });
     };
 
+    //Allow for reactivity of the articleTitle which is passed down to the <ParagraphCreationBox_> to generate ideas
+    watch(articleTitle, (newValue, oldValue) => {
+      console.log("Article title changed from", oldValue, "to", newValue);
+    });
+
     return {
       numberOfParagraphs,
       statekey,
       incrementMutation,
       decrementMutation,
+      articleTitle,
       captureData,
       processData,
       handleClick,

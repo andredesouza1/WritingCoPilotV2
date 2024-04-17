@@ -4,6 +4,7 @@
       <router-link to="/">Home</router-link>
       <router-link to="/create-article">Create Article</router-link>
       <router-link to="/view-article">View Article</router-link>
+      <router-link to="/test-view">Test View</router-link>
     </nav>
     <router-view />
   </div>
@@ -40,5 +41,9 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
+}
+
+h1 {
+  margin-top: 100px;
 }
 </style>

@@ -6,6 +6,7 @@
         type="text"
         placeholder="Enter Paragraph Topic"
         name="p_topic"
+        id="p_topic"
         v-model="paragraphTopic"
       />
     </div>
@@ -14,9 +15,10 @@
       v-for="index in numberOfBulletPoints"
       :key="index"
       :index="index"
+      :value="bulletPointValuesDict[index + 1]"
       @update-value="trackBulletPointValue"
     />
-    <button>Generate Ideas</button>
+    <button @click="generateIdeas">Generate Ideas</button>
   </div>
 </template>
 
@@ -31,7 +33,7 @@ export default {
     LocalSelectValue_,
     BulletPointInput_,
   },
-  props: ["index"],
+  props: ["index", "articleTitle"],
   setup(props, context) {
     const numberOfBulletPoints = ref(1);
 
@@ -69,7 +71,35 @@ export default {
     };
 
     const generateIdeas = () => {
-      // Logic to generate ideas based on the selected number of bullet points
+      const articleTitle = props.articleTitle;
+      const topic = paragraphTopic.value;
+      const number = numberOfBulletPoints.value;
+      const model = "gpt-3.5-turbo";
+      const jsonData = JSON.stringify({
+        articleTitle,
+        topic,
+        number,
+        model,
+      });
+
+      console.log(jsonData);
+
+      fetch("http://127.0.0.1:8000/llm_calls/generate_bulletpoints", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("BulletPoints:", data);
+          // Handle the response data here
+        })
+        .catch((error) => {
+          console.error("Error creating article:", error);
+          // Handle the error here
+        });
     };
 
     onUpdated(() => {
@@ -83,6 +113,7 @@ export default {
     return {
       numberOfBulletPoints,
       paragraphTopic,
+      bulletPointValuesDict,
       findNumberOfBulletPoints,
       trackBulletPointValue,
       generateIdeas,
@@ -96,7 +127,9 @@ export default {
   width: 80%;
   background-color: grey;
   margin: 0 auto;
+}
 
-  min-height: 20vh;
+#p_topic {
+  width: 50%;
 }
 </style>
