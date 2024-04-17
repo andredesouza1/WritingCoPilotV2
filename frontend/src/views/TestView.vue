@@ -9,6 +9,10 @@
       :inputValue="inputValue"
       @inputChange="updateInputFields(index, $event)"
     />
+    <div v-if="showArea" class="area">
+      <button @click="toggleArea">Close</button>
+    </div>
+    <button @click="toggleArea">Toggle Area</button>
     <button @click="handleClick">Generate Ideas</button>
   </div>
 </template>
@@ -84,9 +88,17 @@ export default {
         });
     };
 
+    const showArea = ref(false);
+
+    const toggleArea = () => {
+      showArea.value = !showArea.value;
+    };
+
     return {
       numberOfIter,
       inputFields,
+      showArea,
+      toggleArea,
       updateInputFields,
       handleClick,
       generateIdeas,
@@ -95,4 +107,22 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.area {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 80%;
+  background-color: rgb(
+    241,
+    233,
+    233,
+    0.5
+  ); /* Semi-transparent white background */
+  z-index: 999; /* Bring the area to the front */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

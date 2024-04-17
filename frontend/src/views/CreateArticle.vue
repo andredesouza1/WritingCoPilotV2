@@ -21,14 +21,22 @@
         :articleTitle="articleTitle"
         @paragraph-values="captureData"
       />
+      <fullArticleVisualizer_
+        v-if="toggleArticle"
+        @toggleArticle="toggleArticle = !toggleArticle"
+      />
     </div>
     <button @click="handleClick">Create Article</button>
+    <button v-if="firstArticleCreated" @click="toggleArticle = !toggleArticle">
+      View Article
+    </button>
   </div>
 </template>
 
 <script>
 import SelectValue_ from "../components/SelectValue_.vue";
 import ParagraphCreationBox_ from "../components/ParagraphCreationBox_.vue";
+import fullArticleVisualizer_ from "../components/fullArticleVisualizer_.vue";
 import { useStore } from "vuex";
 import { computed, ref, watch } from "vue";
 
@@ -36,6 +44,7 @@ export default {
   components: {
     SelectValue_,
     ParagraphCreationBox_,
+    fullArticleVisualizer_,
   },
 
   setup(context) {
@@ -55,20 +64,16 @@ export default {
 
     const articleTitle = ref("");
 
+    const toggleArticle = ref(false);
+
+    const firstArticleCreated = ref(false);
+
     const captureData = (data) => {
       // Merge the bullet point data from the ParagraphCreationBox_ components
 
       paragraphTopicsDict.value[data.index] = data.paragraphTopic;
 
       paragraphBulletPointLists.value[data.index] = data.bullet_point_values;
-
-      console.log("statekey:", numberOfParagraphs.value);
-
-      console.log(
-        "Paragraph Bullet Point Lists:",
-        paragraphBulletPointLists.value
-      );
-      console.log("Paragraph Topic:", paragraphTopicsDict.value);
     };
 
     const processData = () => {
@@ -112,9 +117,6 @@ export default {
         model,
       });
 
-      console.log("click handled");
-      console.log(jsonData);
-
       fetch("http://127.0.0.1:8000/llm_calls/create_article", {
         method: "POST",
         headers: {
@@ -127,6 +129,8 @@ export default {
           console.log("Article created:", data[0]);
 
           store.commit("updateArticle", data[0]);
+          toggleArticle.value = true;
+          firstArticleCreated.value = true;
         })
         .catch((error) => {
           console.error("Error creating article:", error);
@@ -145,6 +149,8 @@ export default {
       incrementMutation,
       decrementMutation,
       articleTitle,
+      toggleArticle,
+      firstArticleCreated,
       captureData,
       processData,
       handleClick,

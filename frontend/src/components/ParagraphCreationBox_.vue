@@ -1,6 +1,6 @@
 <template>
   <div class="paragraph-box">
-    <p>Paragraph Creation Box</p>
+    <h3>Paragraph Creation</h3>
     <div>
       <input
         type="text"
@@ -154,6 +154,7 @@ export default {
   width: 80%;
   background-color: grey;
   margin: 0 auto;
+  margin-bottom: 10px;
 }
 
 #p_topic {
