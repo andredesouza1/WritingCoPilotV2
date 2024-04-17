@@ -13,6 +13,7 @@ export default {
     const store = useStore();
     //fullArticle is currently being set in the store in the mutation setFullArticle
     // However, in the future I may want to change this so that the article first gets saved to a database and then retrieved from the database
+    console.log("store.state.fullArticle:", store.state.fullArticle);
     return {
       fullArticle: computed(() => store.state.fullArticle),
     };
@@ -28,5 +29,8 @@ p {
   margin-bottom: 10px;
   max-width: 70%;
   margin: 0 auto;
+  margin-bottom: 50px;
+  white-space: pre-line;
+  text-align: left;
 }
 </style>
