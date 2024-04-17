@@ -5,9 +5,12 @@ const store = createStore({
   state() {
     return {
       numberOfParagraphs: 1,
+
+      fullArticle: "Please Create Article",
     };
   },
   mutations: {
+    // Control numberOfParagraphs
     incrementParagraphs(state) {
       state.numberOfParagraphs++;
       if (state.numberOfParagraphs > 30) {
@@ -19,6 +22,11 @@ const store = createStore({
       if (state.numberOfParagraphs < 1) {
         state.numberOfParagraphs = 1;
       }
+    },
+
+    //Control fullArticle
+    updateArticle(state, input) {
+      state.fullArticle = input;
     },
   },
   actions: {},

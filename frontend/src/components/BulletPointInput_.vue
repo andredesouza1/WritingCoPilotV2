@@ -1,33 +1,30 @@
 <template>
   <div>
-    <textarea
-      type="text"
-      v-model="bulletPoint"
-      @keyup.enter="submitInput"
-    ></textarea>
+    <textarea type="text" v-model="bulletPoint" @input="handleInput"></textarea>
   </div>
 </template>
 
 <script>
-import { ref, onUpdated, watch } from "vue";
+import { ref, watch } from "vue";
 export default {
-  props: ["index", "value"],
+  props: ["index", "inputValue"],
   setup(props, context) {
-    const bulletPoint = ref("");
+    const bulletPoint = ref(props.inputValue); //value in input
 
-    const submitInput = () => {
-      console.log(bulletPoint.value);
+    const handleInput = (event) => {
+      const newValue = event.target.value;
+      bulletPoint.value = newValue;
+      context.emit("inputChange", newValue); // Emit input change event to propagate to parent
     };
 
-    onUpdated(() => {
-      console.log("On Updated Bullet");
-      context.emit("updateValue", {
-        index: props.index,
-        value: bulletPoint.value,
-      });
-    });
+    watch(
+      () => props.inputValue,
+      (newValue) => {
+        bulletPoint.value = newValue;
+      }
+    );
 
-    return { bulletPoint, submitInput };
+    return { bulletPoint, handleInput };
   },
 };
 </script>

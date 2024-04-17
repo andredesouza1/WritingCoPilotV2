@@ -22,10 +22,10 @@ export default {
     TestComponent_,
   },
   setup() {
-    const numberOfIter = ref(3);
+    const numberOfIter = ref(3); // Number of Inteations
     const inputFields = ref(
       Array.from({ length: numberOfIter.value }, () => "")
-    );
+    ); //Value store
 
     watch(
       () => numberOfIter.value,

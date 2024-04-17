@@ -48,6 +48,7 @@ export default {
 
     const numberOfParagraphs = computed(() => store.state.numberOfParagraphs);
 
+    // DO I want to keep paragraph Topics Dict and pragraphBulletPointLists as Dicts or change to arrays?
     const paragraphTopicsDict = ref({});
 
     const paragraphBulletPointLists = ref({});
@@ -124,7 +125,8 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log("Article created:", data[0]);
-          // Handle the response data here
+
+          store.commit("updateArticle", data[0]);
         })
         .catch((error) => {
           console.error("Error creating article:", error);

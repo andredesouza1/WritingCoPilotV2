@@ -7,13 +7,13 @@ import { ref, watch } from "vue";
 
 export default {
   props: ["inputValue"],
-  setup(props, { emit }) {
-    const inputValue = ref(props.inputValue);
+  setup(props, context) {
+    const inputValue = ref(props.inputValue); //Value in input
 
     const handleInput = (event) => {
       const newValue = event.target.value;
       inputValue.value = newValue;
-      emit("inputChange", newValue); // Emit input change event to propagate to parent
+      context.emit("inputChange", newValue); // Emit input change event to propagate to parent
     };
 
     watch(
